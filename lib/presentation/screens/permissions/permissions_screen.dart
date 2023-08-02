@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:miscelaneos/presentation/providers/app_state_provider.dart';
+import 'package:miscelaneos/presentation/providers/providers.dart';
 
 
 class PermissionsScreen extends StatelessWidget {
@@ -24,16 +24,44 @@ class _PermissionsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
 
-    // final appState = ref.watch( appStateProvider );
+    final permissions = ref.watch( permissionsProvider );
+    
     return ListView(
       children: [
 
         CheckboxListTile(
-          value: true, 
+          value: permissions.cameraGranted, 
           title: const Text('Camera'),
-          subtitle: const Text('Current State'),
-          onChanged: ( value){
+          subtitle: Text('$permissions.camera'),
+          onChanged: ( _ ){
+            ref.read( permissionsProvider.notifier ).requestCameraAccess();
+          }
+        ),
 
+        CheckboxListTile(
+          value: permissions.photoLibraryGranted, 
+          title: const Text('Galery'),
+          subtitle: Text('$permissions.photoLibrary'),
+          onChanged: ( _ ){
+            ref.read( permissionsProvider.notifier ).requestGaleryAccess();
+          }
+        ),
+
+        CheckboxListTile(
+          value: permissions.locationGranted, 
+          title: const Text('Location'),
+          subtitle: Text('$permissions.location'),
+          onChanged: ( _ ){
+            ref.read( permissionsProvider.notifier ).requestLocationAccess();
+          }
+        ),
+
+        CheckboxListTile(
+          value: permissions.sensonrsGranted, 
+          title: const Text('Sensors'),
+          subtitle: Text('$permissions.sensors'),
+          onChanged: ( _ ){
+            ref.read( permissionsProvider.notifier ).requestSensorsAccess();
           }
         ),
 

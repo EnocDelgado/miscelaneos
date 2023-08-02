@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+final permissionsProvider = StateNotifierProvider<PermissionNotifier, PermissionsState>((ref) {
+
+  return PermissionNotifier();
+});
 
 class PermissionNotifier extends StateNotifier<PermissionsState> {
 
-  PermissionNotifier(): super( PermissionsState() ){
-    // todo: checkPermissions()
-  }
+  PermissionNotifier(): super( PermissionsState() );
 
   Future<void> checkPermissions() async {
     // verify status
@@ -23,7 +25,7 @@ class PermissionNotifier extends StateNotifier<PermissionsState> {
     state = state.copyWith(
       camera : permissionsArray[0],
       photoLibrary : permissionsArray[1],
-      sensonrs : permissionsArray[2],
+      sensors : permissionsArray[2],
 
       location : permissionsArray[3],
       locationAlways : permissionsArray[4],
@@ -31,15 +33,43 @@ class PermissionNotifier extends StateNotifier<PermissionsState> {
     );
   }
 
+  openSettinsScreen() {
+    openAppSettings();
+  }
+
+  void _checkPermissionState( PermissionStatus status ) {
+    if ( status == PermissionStatus.permanentlyDenied ) {
+      openAppSettings();
+    }
+  }
+
   // request permissions
   requestCameraAccess() async {
     final status = await Permission.camera.request();
     state = state.copyWith( camera: status );
 
-    if ( status == PermissionStatus.permanentlyDenied ) {
-      openAppSettings();
-      
-    }
+    _checkPermissionState(status);
+  }
+
+  requestGaleryAccess() async {
+    final status = await Permission.photos.request();
+    state = state.copyWith( photoLibrary: status );
+
+    _checkPermissionState(status);
+  }
+
+  requestLocationAccess() async {
+    final status = await Permission.location.request();
+    state = state.copyWith( location: status );
+
+    _checkPermissionState(status);
+  }
+
+  requestSensorsAccess() async {
+    final status = await Permission.sensors.request();
+    state = state.copyWith( sensors: status );
+
+    _checkPermissionState(status);
   }
 }
 
@@ -48,7 +78,7 @@ class PermissionsState {
 
   final PermissionStatus camera;
   final PermissionStatus photoLibrary;
-  final PermissionStatus sensonrs;
+  final PermissionStatus sensors;
 
   final PermissionStatus location;
   final PermissionStatus locationAlways;
@@ -57,7 +87,7 @@ class PermissionsState {
   PermissionsState({
     this.camera = PermissionStatus.denied, 
     this.photoLibrary = PermissionStatus.denied, 
-    this.sensonrs = PermissionStatus.denied, 
+    this.sensors = PermissionStatus.denied, 
     this.location = PermissionStatus.denied, 
     this.locationAlways = PermissionStatus.denied, 
     this.locationWhenInUse  = PermissionStatus.denied
@@ -70,7 +100,7 @@ class PermissionsState {
     return photoLibrary == PermissionStatus.granted;
   }
   get sensonrsGranted {
-    return sensonrs == PermissionStatus.granted;
+    return sensors == PermissionStatus.granted;
   }
   get locationGranted {
     return location == PermissionStatus.granted;
@@ -85,14 +115,14 @@ class PermissionsState {
   PermissionsState copyWith({
     PermissionStatus? camera,
     PermissionStatus? photoLibrary,
-    PermissionStatus? sensonrs,
+    PermissionStatus? sensors,
     PermissionStatus? location,
     PermissionStatus? locationAlways,
     PermissionStatus? locationWhenInUse
   }) => PermissionsState(
     camera: camera ?? this.camera,
     photoLibrary: photoLibrary ?? this.photoLibrary,
-    sensonrs: sensonrs ?? this.sensonrs,
+    sensors: sensors ?? this.sensors,
     location: location ?? this.location,
     locationAlways: locationAlways ?? this.locationAlways,
     locationWhenInUse: locationWhenInUse ?? this.locationWhenInUse

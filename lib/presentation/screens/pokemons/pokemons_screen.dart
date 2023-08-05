@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:miscelaneos/presentation/providers/pokemons/pokemon_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:miscelaneos/presentation/providers/pokemons/pokemon_list_provider.dart';
 
 class PokemonsScreen extends StatelessWidget {
   const PokemonsScreen({super.key});
@@ -26,7 +27,7 @@ class PokemonsViewState extends ConsumerState<PokemonsView> {
 
   // infinite scroll
   void infinitScroll() {
-    final currentPokemons = ref.read( pokemonProvider );
+    final currentPokemons = ref.read( pokemonListProvider );
     //validation
     if ( currentPokemons.length > 400 ) {
       scrollController.removeListener( infinitScroll );
@@ -34,7 +35,7 @@ class PokemonsViewState extends ConsumerState<PokemonsView> {
     }
 
     if ( ( scrollController.position.pixels + 200 ) > scrollController.position.maxScrollExtent ) {
-      ref.read( pokemonProvider.notifier ).update((state) => [
+      ref.read( pokemonListProvider.notifier ).update((state) => [
         ...state,
         ...List.generate( 91, ( index)  => state.length + index + 1 )
       ]);
@@ -71,12 +72,12 @@ class PokemonsViewState extends ConsumerState<PokemonsView> {
 }
 
 class _PokemonGrid extends ConsumerWidget {
-  const _PokemonGrid({super.key});
+  const _PokemonGrid();
 
   @override
   Widget build( BuildContext context, WidgetRef ref ) {
 
-    final pokemonId = ref.watch( pokemonProvider );
+    final pokemonId = ref.watch( pokemonListProvider );
 
     return SliverGrid.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -88,7 +89,7 @@ class _PokemonGrid extends ConsumerWidget {
       itemBuilder: (context, index) {
         
         return GestureDetector(
-          // onTap: ,
+          onTap: () => context.push('/pokemons/${ index + 1 }'),
           child: Image.network(
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png',
             fit: BoxFit.contain,

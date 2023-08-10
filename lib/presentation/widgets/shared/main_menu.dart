@@ -19,7 +19,11 @@ final menuItems = <MenuItem>[
 
   MenuItem('Pokemon', Icons.catching_pokemon, '/pokemons'),
 
-  MenuItem('Biometrics', Icons.fingerprint, '/biometrics')
+  MenuItem('Biometrics', Icons.fingerprint, '/biometrics'),
+
+  MenuItem('Location', Icons.pin_drop, '/location'),
+  MenuItem('Maps', Icons.map_outlined, '/maps'),
+  MenuItem('Controlled Maps', Icons.gamepad_outlined, '/controlled-map')
 ];
 
 class MainMenu extends StatelessWidget {

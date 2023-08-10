@@ -9,3 +9,7 @@ export 'pokemons/pokemons_screen.dart';
 export 'pokemons/pokemon_screen.dart';
 
 export 'biometrics/biometric_screen.dart';
+
+export 'locations/controlled_map_screen.dart';
+export 'locations/location_screen.dart';
+export 'locations/map_screen.dart';

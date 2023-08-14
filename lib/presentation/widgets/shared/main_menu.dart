@@ -25,7 +25,11 @@ final menuItems = <MenuItem>[
   MenuItem('Maps', Icons.map_outlined, '/maps'),
   MenuItem('Controlled Maps', Icons.gamepad_outlined, '/controlled-map'),
 
-   MenuItem('Badge', Icons.notification_important, '/badge')
+  MenuItem('Badge', Icons.notification_important, '/badge'),
+
+  MenuItem('Ad Full', Icons.ac_unit_rounded, '/ad-fullscreen'),
+  MenuItem('Ad Rewarded', Icons.fort_rounded, '/ad-rewarded')
+
 ];
 
 class MainMenu extends StatelessWidget {
@@ -81,7 +85,7 @@ class HomeMenuItem extends StatelessWidget {
           children: [
             Icon( icon, color:  Colors.white, size: 40 ),
             const SizedBox( height: 10 ),
-            Text( title, textAlign: TextAlign.center, style: const TextStyle( color: Colors.white, fontSize: 12 ),   )
+            Text( title, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, style: const TextStyle( color: Colors.white, fontSize: 12 ),   )
           ],
         ),
       ),

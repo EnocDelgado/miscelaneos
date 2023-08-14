@@ -9,26 +9,39 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: Padding(
-        padding: const EdgeInsets.symmetric( horizontal: 30 ),
-        child: CustomScrollView(
-          slivers: [
-            
-            SliverAppBar(
-              title: const Text('Miscelaneos'),
-              actions: [
-                IconButton(
-                  icon: const Icon( Icons.settings ),
-                  onPressed: (){
-                    context.push('/permissions');
-                  }
-                )
-              ],
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric( horizontal: 30 ),
+              child: CustomScrollView(
+                slivers: [
+                  
+                  SliverAppBar(
+                    title: const Text('Miscelaneos'),
+                    actions: [
+                      IconButton(
+                        icon: const Icon( Icons.settings ),
+                        onPressed: (){
+                          context.push('/permissions');
+                        }
+                      )
+                    ],
+                  ),
+                  
+                  const MainMenu()
+                ],
+              ),
             ),
-            
-            const MainMenu()
-          ],
-        ),
+          ),
+
+          // Ad Banner
+          Container(
+            color:  Colors.red,
+            width: double.infinity,
+            height: 75,
+          )
+        ],
       ),
     );
   }

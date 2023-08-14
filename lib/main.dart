@@ -9,6 +9,9 @@ void main() {
   // init
   WidgetsFlutterBinding.ensureInitialized();
 
+  // init quick actions
+  QuickActionsPlugin.registerActions();
+
   // orientation
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp

@@ -23,7 +23,9 @@ final menuItems = <MenuItem>[
 
   MenuItem('Location', Icons.pin_drop, '/location'),
   MenuItem('Maps', Icons.map_outlined, '/maps'),
-  MenuItem('Controlled Maps', Icons.gamepad_outlined, '/controlled-map')
+  MenuItem('Controlled Maps', Icons.gamepad_outlined, '/controlled-map'),
+
+   MenuItem('Badge', Icons.notification_important, '/badge')
 ];
 
 class MainMenu extends StatelessWidget {
